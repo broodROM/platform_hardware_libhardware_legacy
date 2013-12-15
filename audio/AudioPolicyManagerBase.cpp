@@ -1491,7 +1491,7 @@ bool AudioPolicyManagerBase::isOffloadSupported(const audio_offload_info_t& offl
     //TODO: enable audio offloading with video when ready
     if (offloadInfo.has_video)
     {
-        if(property_get("av.offload.enable", propValue, NULL)) {
+        if(property_get("av.offload.enable", propValue, "false")) {
             bool prop_enabled = atoi(propValue) || !strncmp("true", propValue, 4);
             if (!prop_enabled) {
                ALOGW("offload disabled by av.offload.enable = %s ", propValue );
@@ -2509,7 +2509,8 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
         if (device2 == AUDIO_DEVICE_NONE) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_USB_DEVICE;
         }
-        if (device2 == AUDIO_DEVICE_NONE) {
+        if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
+            // no sonification on digital docks (e.g. USB DACs)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET;
         }
         if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
