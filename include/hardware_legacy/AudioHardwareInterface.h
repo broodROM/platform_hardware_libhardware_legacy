@@ -118,7 +118,7 @@ public:
      */
 #ifndef ICS_AUDIO_BLOB
     virtual status_t    getNextWriteTimestamp(int64_t *timestamp);
-#ifdef QCOM_DIRECTTRACK
+#ifdef QCOM_HARDWARE
     virtual status_t    start() {return INVALID_OPERATION;}
     virtual status_t    pause()  {return INVALID_OPERATION;}
     virtual status_t    flush()  {return INVALID_OPERATION;}
